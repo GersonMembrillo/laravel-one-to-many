@@ -47,6 +47,7 @@ class ProjectController extends Controller
         $data = $request->validated();
         $slug = Str::slug($request->title, '-');
         $data['slug'] = $slug;
+        $data['type_id'] = Auth::id();
         if ($request->hasFile('image')) {
             $image_path = Storage::put('uploads', $request->image);
             $data['image'] = asset('storage/' . $image_path);
@@ -77,6 +78,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+
         return view('admin.projects.show', compact('project'));
     }
 
@@ -88,6 +90,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+
+        if (!Auth::user()->is_admin && $project->type_id !== Auth::id()) {
+            abort(403);
+        }
         $types = Type::all();
         return view('admin.projects.edit', compact('project', 'types'));
     }
@@ -122,7 +128,10 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         if ($project->image) {
-            Storage::delete($project->image);
+            $toRemove = "http://127.0.0.1:8000/storage/";
+            $imagetoremove = str_replace($toRemove, '', $project->image);
+            //dd($imagetoremove);
+            Storage::delete($imagetoremove);
         }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "$project->title successfully deleted!");

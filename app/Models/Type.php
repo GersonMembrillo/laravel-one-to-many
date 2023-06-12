@@ -12,6 +12,11 @@ class Type extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'slug'];
+
+    public function isAdmin()
+    {
+        return $this->is_admin === true;
+    }
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);

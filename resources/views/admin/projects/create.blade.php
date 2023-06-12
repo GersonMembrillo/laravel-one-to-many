@@ -35,18 +35,18 @@
                 @enderror
             </div>
         </div>
-        {{-- <div class="mb-3">
-            <label for="category_id">Category</label>
-            <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
-                <option value="">Select a category</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+        <div class="mb-3">
+            <label for="type_id">Type</label>
+            <select name="type_id" id="type_id" class="form-control @error('type_id') is-invalid @enderror">
+                <option value="">Select type</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}">{{ $type->name }}</option>
                 @endforeach
             </select>
-            @error('category_id')
+            @error('type_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-        </div> --}}
+        </div>
         <div class="mb-3">
             <label for="description">Description</label>
             <textarea name="description" id="description" rows="10"
