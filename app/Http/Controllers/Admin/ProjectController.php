@@ -47,7 +47,7 @@ class ProjectController extends Controller
         $data = $request->validated();
         $slug = Str::slug($request->title, '-');
         $data['slug'] = $slug;
-        $data['type_id'] = Auth::id();
+        // $data['type_id'] = Auth::id();
         if ($request->hasFile('image')) {
             $image_path = Storage::put('uploads', $request->image);
             $data['image'] = asset('storage/' . $image_path);
@@ -91,9 +91,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
 
-        if (!Auth::user()->is_admin && $project->type_id !== Auth::id()) {
-            abort(403);
-        }
+        // if (!Auth::user()->is_admin && $project->type_id !== Auth::id()) {
+        //     abort(403);
+        // }
         $types = Type::all();
         return view('admin.projects.edit', compact('project', 'types'));
     }
